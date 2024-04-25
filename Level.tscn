@@ -1,0 +1,221 @@
+[gd_scene load_steps=17 format=3 uid="uid://dldwg76tuylet"]
+
+[ext_resource type="PackedScene" uid="uid://dx5184jxv6hi3" path="res://Player.tscn" id="1"]
+[ext_resource type="Shader" path="res://shaders/grid.gdshader" id="1_205pr"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gxg0e"]
+
+[sub_resource type="Sky" id="Sky_pf85n"]
+sky_material = SubResource("ProceduralSkyMaterial_gxg0e")
+
+[sub_resource type="Environment" id="Environment_krqb8"]
+background_mode = 2
+sky = SubResource("Sky_pf85n")
+tonemap_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n6jsi"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 128.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w5u0r"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 32.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_1737y"]
+lightmap_size_hint = Vector2i(54, 36)
+material = SubResource("ShaderMaterial_w5u0r")
+left_to_right = 0.0
+size = Vector3(8, 2, 3)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_50fwl"]
+data = PackedVector3Array(-4, 1, 1.5, 4, -1, 1.5, -4, -1, 1.5, -4, 1, -1.5, -4, -1, -1.5, 4, -1, -1.5, -4, 1, 1.5, -4, 1, -1.5, 4, -1, 1.5, -4, 1, -1.5, 4, -1, -1.5, 4, -1, 1.5, -4, 1, -1.5, -4, 1, 1.5, -4, -1, -1.5, -4, 1, 1.5, -4, -1, 1.5, -4, -1, -1.5, -4, -1, 1.5, 4, -1, 1.5, -4, -1, -1.5, 4, -1, 1.5, 4, -1, -1.5, -4, -1, -1.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3yvo0"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 8.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_quftv"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 8.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vlimu"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 32.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_7aban"]
+material = SubResource("ShaderMaterial_vlimu")
+size = Vector3(60.24, 8.335, 2.44)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lqxgm"]
+data = PackedVector3Array(0, 4.1675, 1.22, 30.12, -4.1675, 1.22, -30.12, -4.1675, 1.22, 0, 4.1675, -1.22, -30.12, -4.1675, -1.22, 30.12, -4.1675, -1.22, 0, 4.1675, 1.22, 0, 4.1675, -1.22, 30.12, -4.1675, 1.22, 0, 4.1675, -1.22, 30.12, -4.1675, -1.22, 30.12, -4.1675, 1.22, 0, 4.1675, -1.22, 0, 4.1675, 1.22, -30.12, -4.1675, -1.22, 0, 4.1675, 1.22, -30.12, -4.1675, 1.22, -30.12, -4.1675, -1.22, -30.12, -4.1675, 1.22, 30.12, -4.1675, 1.22, -30.12, -4.1675, -1.22, 30.12, -4.1675, 1.22, 30.12, -4.1675, -1.22, -30.12, -4.1675, -1.22)
+
+[sub_resource type="PrismMesh" id="PrismMesh_e5rrl"]
+material = SubResource("ShaderMaterial_vlimu")
+size = Vector3(10.99, 4.195, 2.825)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lo0p2"]
+data = PackedVector3Array(0, 2.0975, 1.4125, 5.495, -2.0975, 1.4125, -5.495, -2.0975, 1.4125, 0, 2.0975, -1.4125, -5.495, -2.0975, -1.4125, 5.495, -2.0975, -1.4125, 0, 2.0975, 1.4125, 0, 2.0975, -1.4125, 5.495, -2.0975, 1.4125, 0, 2.0975, -1.4125, 5.495, -2.0975, -1.4125, 5.495, -2.0975, 1.4125, 0, 2.0975, -1.4125, 0, 2.0975, 1.4125, -5.495, -2.0975, -1.4125, 0, 2.0975, 1.4125, -5.495, -2.0975, 1.4125, -5.495, -2.0975, -1.4125, -5.495, -2.0975, 1.4125, 5.495, -2.0975, 1.4125, -5.495, -2.0975, -1.4125, 5.495, -2.0975, 1.4125, 5.495, -2.0975, -1.4125, -5.495, -2.0975, -1.4125)
+
+[node name="Spatial" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_krqb8")
+
+[node name="CSGBox" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+use_collision = true
+size = Vector3(150, 1, 150)
+material = SubResource("ShaderMaterial_n6jsi")
+
+[node name="KinematicBody" parent="." instance=ExtResource("1")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.5, -6.133)
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.50841, -0.161726, -0.845792, 0, -0.982205, 0.18781, -0.861115, 0.0954845, 0.499363, 0, 3, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.5, 0.088)
+mesh = SubResource("PrismMesh_1737y")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_50fwl")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.69446, 10.3207, -5.59844)
+use_collision = true
+size = Vector3(7, 1, 7)
+material = SubResource("ShaderMaterial_3yvo0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1265, 1.4, 7.27605)
+use_collision = true
+size = Vector3(7, 1, 7)
+material = SubResource("ShaderMaterial_3yvo0")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1265, 2, 16.3901)
+use_collision = true
+size = Vector3(7, 1, 7)
+material = SubResource("ShaderMaterial_quftv")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.28999, 3.45435, -26.0221)
+mesh = SubResource("PrismMesh_7aban")
+skeleton = NodePath("../MeshInstance3D2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_lqxgm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.644994, 1.53277, -10.5492)
+mesh = SubResource("PrismMesh_e5rrl")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_lo0p2")
