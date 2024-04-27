@@ -17,11 +17,14 @@ var walking = false
 
 var stored_velocity = Vector3.ZERO
 
+
+
 # Camera
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
+
+
 func _input(event):
 	
 	if event.is_action_pressed("exit"):
@@ -51,10 +54,12 @@ func _handle_camera_rotation(event: InputEvent):
 func _physics_process(delta):
 	process_input()
 	process_movement(delta)
-	
+
+
 	GlobalScript.debug.add_property("FPS",GlobalScript.debug.frames_per_second, 1)
 	GlobalScript.debug.add_property("Speed",str(velocity.length()).pad_decimals(3), 2)
 	GlobalScript.debug.add_property("X rotation", str(rad_to_deg($Head.rotation.x)).pad_decimals(3), 3)
+
 	
 func process_input():
 	direction = Vector3()
@@ -126,3 +131,8 @@ func update_velocity_ground(wish_dir: Vector3, delta):
 func update_velocity_air(wish_dir: Vector3, delta):
 	# Do not apply any friction
 	return accelerate(wish_dir, MAX_VELOCITY_AIR, delta)
+
+
+
+
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dldwg76tuylet"]
+[gd_scene load_steps=18 format=3 uid="uid://dldwg76tuylet"]
 
 [ext_resource type="PackedScene" uid="uid://dx5184jxv6hi3" path="res://Player.tscn" id="1"]
 [ext_resource type="Shader" path="res://shaders/grid.gdshader" id="1_205pr"]
@@ -156,6 +156,30 @@ size = Vector3(10.99, 4.195, 2.825)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lo0p2"]
 data = PackedVector3Array(0, 2.0975, 1.4125, 5.495, -2.0975, 1.4125, -5.495, -2.0975, 1.4125, 0, 2.0975, -1.4125, -5.495, -2.0975, -1.4125, 5.495, -2.0975, -1.4125, 0, 2.0975, 1.4125, 0, 2.0975, -1.4125, 5.495, -2.0975, 1.4125, 0, 2.0975, -1.4125, 5.495, -2.0975, -1.4125, 5.495, -2.0975, 1.4125, 0, 2.0975, -1.4125, 0, 2.0975, 1.4125, -5.495, -2.0975, -1.4125, 0, 2.0975, 1.4125, -5.495, -2.0975, 1.4125, -5.495, -2.0975, -1.4125, -5.495, -2.0975, 1.4125, 5.495, -2.0975, 1.4125, -5.495, -2.0975, -1.4125, 5.495, -2.0975, 1.4125, 5.495, -2.0975, -1.4125, -5.495, -2.0975, -1.4125)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fkijs"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 32.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
 [node name="Spatial" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -219,3 +243,9 @@ mesh = SubResource("PrismMesh_e5rrl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_lo0p2")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 30)
+use_collision = true
+size = Vector3(1, 5, 5)
+material = SubResource("ShaderMaterial_fkijs")
