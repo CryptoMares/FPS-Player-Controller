@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxdpo2r725tjp"]
+
+[ext_resource type="StyleBox" uid="uid://bygfxefe1n300" path="res://ui/themes/debug.tres" id="1_y2kaa"]
+
+[resource]
+default_font_size = 12
+Label/colors/font_color = Color(0.74902, 1, 0.384314, 1)
+Label/font_sizes/font_size = 12
+MarginContainer/constants/margin_bottom = 7
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+MarginContainer/constants/margin_top = 7
+PanelContainer/styles/panel = ExtResource("1_y2kaa")

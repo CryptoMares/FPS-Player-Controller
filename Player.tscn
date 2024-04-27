@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx5184jxv6hi3"]
+[gd_scene load_steps=5 format=3 uid="uid://dx5184jxv6hi3"]
 
-[ext_resource type="Script" path="res://Player.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/fps_controller.gd" id="1"]
+[ext_resource type="Theme" uid="uid://cxdpo2r725tjp" path="res://ui/themes/debug_panel.tres" id="2_pl2w0"]
+[ext_resource type="Script" path="res://scripts/debug.gd" id="3_2aih1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jkwgu"]
 
@@ -15,3 +17,32 @@ shape = SubResource("CapsuleShape3D_jkwgu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugPanel" type="PanelContainer" parent="Control"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 60.0
+theme = ExtResource("2_pl2w0")
+script = ExtResource("3_2aih1")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/DebugPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/DebugPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerStateMachine" type="Node" parent="."]
+
+[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine"]
+
+[node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]

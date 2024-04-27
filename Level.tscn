@@ -196,7 +196,7 @@ size = Vector3(7, 1, 7)
 material = SubResource("ShaderMaterial_3yvo0")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1265, 2, 16.3901)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.127, 1.9, 16.39)
 use_collision = true
 size = Vector3(7, 1, 7)
 material = SubResource("ShaderMaterial_quftv")

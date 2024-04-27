@@ -10,20 +10,26 @@ config_version=5
 
 [application]
 
-config/name="FPS Player Controller Q2 / HL"
+config/name="Advanced FPS Player Controller (X"
 run/main_scene="res://Level.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
 
-[display]
+[autoload]
 
-window/size/viewport_width=1280
-window/size/viewport_height=768
-window/size/mode=3
+GlobalScript="*res://scripts/global_script.gd"
 
 [dotnet]
 
 project/assembly_name="FPS Player Controller"
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "yellow",
+"res://curves/": "orange",
+"res://scripts/": "teal"
+}
 
 [input]
 
@@ -57,13 +63,19 @@ exit={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+debug={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":96,"key_label":0,"unicode":96,"echo":false,"script":null)
+]
+}
 
 [physics]
 
 common/physics_ticks_per_second=144
-3d/physics_engine="GodotPhysics3D"
+3d/physics_engine="JoltPhysics3D"
 
 [rendering]
 
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=5
 anti_aliasing/quality/msaa_3d=3
 anti_aliasing/quality/screen_space_aa=1
