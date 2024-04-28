@@ -131,8 +131,3 @@ func update_velocity_ground(wish_dir: Vector3, delta):
 func update_velocity_air(wish_dir: Vector3, delta):
 	# Do not apply any friction
 	return accelerate(wish_dir, MAX_VELOCITY_AIR, delta)
-
-
-
-
-
