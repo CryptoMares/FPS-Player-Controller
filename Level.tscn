@@ -1,8 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://dldwg76tuylet"]
+[gd_scene load_steps=28 format=3 uid="uid://dldwg76tuylet"]
 
 [ext_resource type="PackedScene" uid="uid://dx5184jxv6hi3" path="res://Player.tscn" id="1"]
 [ext_resource type="Shader" path="res://shaders/grid.gdshader" id="1_205pr"]
 [ext_resource type="Script" path="res://scripts/temp_scripts/anim_push.gd" id="3_glw18"]
+[ext_resource type="Script" path="res://scripts/temp_scripts/anim_push_up.gd" id="4_dg8li"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gxg0e"]
 
@@ -160,7 +161,7 @@ data = PackedVector3Array(0, 2.0975, 1.4125, 5.495, -2.0975, 1.4125, -5.495, -2.
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fkijs"]
 render_priority = 0
 shader = ExtResource("1_205pr")
-shader_parameter/subdivisions = 32.0
+shader_parameter/subdivisions = 8.0
 shader_parameter/grid_width = 0.02
 shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
 shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
@@ -185,7 +186,6 @@ shader_parameter/in_dashed_count_y = 6.0
 animation = &"Push"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5p7g3"]
-graph_offset = Vector2(-321, -7)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_lwxmw")
 nodes/Animation/position = Vector2(40, 140)
 
@@ -200,7 +200,7 @@ tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 3, 3, 3),
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.05, 0, -5, -0.05, 0, 0.05, 0, -5, -0.05, 0, 0.05, 0, 0, -0.05, 0, 0.05, 0),
 "times": PackedFloat32Array(0, 0.2, 1.8, 2)
 }
@@ -267,6 +267,86 @@ tracks/2/keys = {
 _data = {
 "Push": SubResource("Animation_iiba1"),
 "RESET": SubResource("Animation_tskud")
+}
+
+[sub_resource type="Animation" id="Animation_lr3ud"]
+resource_name = "Push_up"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(6, -0.25, 0, 0.25, 0, 6, -0.25, 0, 0.25, 0, 6, -0.25, 0, 0.25, 0, 6, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 1.8, 2)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(3, 3, 3, 3),
+"points": PackedFloat32Array(7, -0.062, 0, 0.062, 0, 2, -0.063, 0, 0.063, 0, 2, -0.062, 0, 0.062, 0, 7, -0.062, 0, 0.062, 0),
+"times": PackedFloat32Array(0, 0.2, 1.8, 2)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(16, -0.25, 0, 0.25, 0, 16, -0.25, 0, 0.25, 0, 16, -0.25, 0, 0.25, 0, 16, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 1.8, 2)
+}
+
+[sub_resource type="Animation" id="Animation_km5m1"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(6.07153, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(16.6554, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m1rbi"]
+_data = {
+"Push_up": SubResource("Animation_lr3ud"),
+"RESET": SubResource("Animation_km5m1")
 }
 
 [node name="Spatial" type="Node3D"]
@@ -347,4 +427,16 @@ anim_player = NodePath("../AnimationPlayer")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CSGBox3D4"]
 libraries = {
 "": SubResource("AnimationLibrary_yafyx")
+}
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.07153, 2, 16.6554)
+use_collision = true
+size = Vector3(5, 1, 5)
+material = SubResource("ShaderMaterial_fkijs")
+script = ExtResource("4_dg8li")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CSGBox3D5"]
+libraries = {
+"": SubResource("AnimationLibrary_m1rbi")
 }

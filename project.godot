@@ -19,6 +19,10 @@ config/icon="res://icon.png"
 
 GlobalScript="*res://scripts/global_script.gd"
 
+[display]
+
+window/size/mode=3
+
 [dotnet]
 
 project/assembly_name="FPS Player Controller"
