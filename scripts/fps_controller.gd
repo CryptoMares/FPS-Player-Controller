@@ -8,21 +8,31 @@ var MAX_ACCELERATION = 10 * MAX_VELOCITY_GROUND
 @export var STOP_SPEED = 1.5 #1.5
 var JUMP_IMPULSE = sqrt(2 * GRAVITY * 2.0) #sqrt(2 * GRAVITY * 0.85)
 @export var PLAYER_WALKING_MULTIPLIER = 0.666
-@export var MOUSE_SENSITIVITY : float = 0.1
+@export var MOUSE_SENSITIVITY : float = 0.075
+
+@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 5.0
+@export var TOGGLE_CROUCH : bool = true
+
+@export var ANIMATIONPLAYER : AnimationPlayer
+@export var CROUCH_SHAPECAST : Node3D
 
 var direction = Vector3()
-var friction = 6 #4 6
+var friction = 6 #4
 var wish_jump
 var walking = false
 
-# var stored_velocity = Vector3.ZERO
+var _is_crouching : bool = false
 
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	CROUCH_SHAPECAST.add_exception($".")
 
 
 func _input(event):
+	
+	if event.is_action_pressed("crouch"):
+		toggle_crouch()
 	
 	if event.is_action_pressed("exit"):
 		get_tree().quit()
@@ -37,7 +47,7 @@ func _handle_camera_rotation(event: InputEvent):
 	$Head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENSITIVITY))
 	
 	
-	# Stop the head from rotating to far up or down + soft clamp
+	# Stop the head from rotating too far up or down + soft clamp
 	var head_rot_x = $Head.rotation.x
 	var new_head_rot_x = clamp(head_rot_x, deg_to_rad(-90) - (head_rot_x - deg_to_rad(60)) * 0.1, deg_to_rad(60) + (head_rot_x - deg_to_rad(-80)) * 0.1)
 	$Head.rotation.x = lerp($Head.rotation.x, new_head_rot_x, 0.35)
@@ -79,8 +89,7 @@ func process_movement(delta):
 	if is_on_floor():
 		# If wish_jump is true then we won't apply any friction and allow the 
 		# player to jump instantly, this gives us a single frame where we can 
-		# perfectly bunny hop
-		if wish_jump:
+		if wish_jump and _is_crouching == false: # "_is_crouching == false" disables jump while crouched
 			velocity.y = JUMP_IMPULSE
 			# Update velocity as if we are in the air
 			velocity = update_velocity_air(wish_dir, delta)
@@ -92,11 +101,10 @@ func process_movement(delta):
 		velocity.y -= GRAVITY * delta
 		velocity = update_velocity_air(wish_dir, delta)
 	
-	# add_debug_property("Current speed", velocity.length())
 
 	# Move the player once velocity has been calculated
 	move_and_slide()
-	
+
 func accelerate(wish_dir: Vector3, max_velocity: float, delta):
 	# Get our current speed as a projection of velocity onto the wish_dir
 	var current_speed = velocity.normalized().dot(wish_dir)
@@ -122,3 +130,20 @@ func update_velocity_ground(wish_dir: Vector3, delta):
 func update_velocity_air(wish_dir: Vector3, delta):
 	# Do not apply any friction
 	return accelerate(wish_dir, MAX_VELOCITY_AIR, delta)
+
+func crouching(state : bool):
+	match state:
+		true:
+			ANIMATIONPLAYER.play("Crouch", -1, CROUCH_SPEED)
+		false:
+			ANIMATIONPLAYER.play("Crouch", -1, -CROUCH_SPEED, true)
+
+func toggle_crouch():
+	if _is_crouching == true and CROUCH_SHAPECAST.is_colliding() == false:
+		crouching(false)
+	elif _is_crouching == false:
+		crouching(true)
+
+func _on_animation_player_animation_started(anim_name):
+	if anim_name == "Crouch":
+		_is_crouching = !_is_crouching
