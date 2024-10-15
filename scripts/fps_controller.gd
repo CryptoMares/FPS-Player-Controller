@@ -56,11 +56,9 @@ func _physics_process(delta):
 	process_input()
 	process_movement(delta)
 
-
 	GlobalScript.debug.add_property("FPS",GlobalScript.debug.frames_per_second, 1)
 	GlobalScript.debug.add_property("Speed",str(velocity.length()).pad_decimals(3), 2)
 	GlobalScript.debug.add_property("X rotation", str(rad_to_deg($Head.rotation.x)).pad_decimals(3), 3)
-
 	
 func process_input():
 	direction = Vector3()
@@ -100,7 +98,6 @@ func process_movement(delta):
 		# Only apply gravity while in the air
 		velocity.y -= GRAVITY * delta
 		velocity = update_velocity_air(wish_dir, delta)
-	
 
 	# Move the player once velocity has been calculated
 	move_and_slide()
@@ -147,3 +144,10 @@ func toggle_crouch():
 func _on_animation_player_animation_started(anim_name):
 	if anim_name == "Crouch":
 		_is_crouching = !_is_crouching
+
+#func uncrouch_check():
+	#if CROUCH_SHAPECAST.is_colliding() == false:
+		#crouching(false)
+	#if CROUCH_SHAPECAST.is_colliding() == true:
+		#await get_tree().create_timer(0.1).timeout
+		#uncrouch_check()

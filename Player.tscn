@@ -1,12 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://dx5184jxv6hi3"]
+[gd_scene load_steps=12 format=3 uid="uid://dx5184jxv6hi3"]
 
 [ext_resource type="Script" path="res://scripts/fps_controller.gd" id="1"]
 [ext_resource type="Theme" uid="uid://cxdpo2r725tjp" path="res://ui/themes/debug_panel.tres" id="2_pl2w0"]
+[ext_resource type="Shader" path="res://shaders/PostProcess2D/fisheyegdshader.gdshader" id="2_uqvly"]
 [ext_resource type="Script" path="res://scripts/debug.gd" id="3_2aih1"]
+[ext_resource type="Script" path="res://scripts/PP2D_color_rect_res_depend.gd" id="3_gfe20"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jkwgu"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_glv2y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_adba5"]
+shader = ExtResource("2_uqvly")
+shader_parameter/effect_amount = 1.0
 
 [sub_resource type="Animation" id="Animation_c34ra"]
 resource_name = "Crouch"
@@ -117,6 +123,18 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="PostProcess2D" type="Control" parent="Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Control/PostProcess2D"]
+material = SubResource("ShaderMaterial_adba5")
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+script = ExtResource("3_gfe20")
 
 [node name="DebugPanel" type="PanelContainer" parent="Control"]
 custom_minimum_size = Vector2(300, 0)
