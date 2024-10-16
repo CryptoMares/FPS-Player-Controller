@@ -23,6 +23,10 @@ var walking = false
 
 var _is_crouching : bool = false
 
+const MAX_STEP_HEIGHT = 0.5
+var _snapped_to_stairs_last_frame := false
+var _last_frame_was_on_floor := -INF
+
 
 func _ready():
 
@@ -52,10 +56,36 @@ func _handle_camera_rotation(event: InputEvent):
 	var head_rot_x = $Head.rotation.x
 	var new_head_rot_x = clamp(head_rot_x, deg_to_rad(-90) - (head_rot_x - deg_to_rad(60)) * 0.1, deg_to_rad(60) + (head_rot_x - deg_to_rad(-80)) * 0.1)
 	$Head.rotation.x = lerp($Head.rotation.x, new_head_rot_x, 0.35)
-	
+
+
+func is_surface_too_steep(normal : Vector3) -> bool:
+	return normal.angle_to(Vector3.UP) > self.floor_max_angle
+
+func _run_body_test_motion(from : Transform3D, motion : Vector3, result = null) -> bool:
+	if not result: result = PhysicsTestMotionResult3D.new()
+	var params = PhysicsTestMotionResult3D.new()
+	params.from = from
+	params.motion = motion
+	return PhysicsServer3D.body_test_motion(self.get_rid(), params, result)
+
+func snap_down_to_stairs_check() -> void:
+	var did_snap := false
+	var was_on_floor_last_frame = Engine.get_physics_frames() - _last_frame_was_on_floor == 1
+	if not is_on_floor() and velocity.y <= 0 and (was_on_floor_last_frame or _snapped_to_stairs_last_frame):
+		var body_test_result = PhysicsTestMotionResult3D.new()
+		if _run_body_test_motion(self.global_transform, Vector3(0, -MAX_STEP_HEIGHT, 0), body_test_result):
+			var translate_y = body_test_result.get_travel().y
+			self.position.y += translate_y
+			apply_floor_snap()
+			did_snap = true
+	_snapped_to_stairs_last_frame = did_snap
+
+
 func _physics_process(delta):
 	process_input()
 	process_movement(delta)
+	
+	if is_on_floor(): _last_frame_was_on_floor = Engine.get_physics_frames()
 
 	GlobalScript.debug.add_property("FPS",GlobalScript.debug.frames_per_second, 1)
 	GlobalScript.debug.add_property("Speed",str(velocity.length()).pad_decimals(3), 2)
@@ -102,6 +132,7 @@ func process_movement(delta):
 
 	# Move the player once velocity has been calculated
 	move_and_slide()
+	snap_down_to_stairs_check()w
 
 func accelerate(wish_dir: Vector3, max_velocity: float, delta):
 	# Get our current speed as a projection of velocity onto the wish_dir
