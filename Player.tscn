@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dx5184jxv6hi3"]
+[gd_scene load_steps=15 format=3 uid="uid://dx5184jxv6hi3"]
 
 [ext_resource type="Script" path="res://scripts/fps_controller.gd" id="1"]
+[ext_resource type="Shader" path="res://shaders/PostProcess3D/sptl_shdr_3d.gdshader" id="2_e1kmm"]
 [ext_resource type="Theme" uid="uid://cxdpo2r725tjp" path="res://ui/themes/debug_panel.tres" id="2_pl2w0"]
 [ext_resource type="Shader" path="res://shaders/PostProcess2D/fisheyegdshader.gdshader" id="2_uqvly"]
 [ext_resource type="Script" path="res://scripts/debug.gd" id="3_2aih1"]
@@ -9,6 +10,19 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jkwgu"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_glv2y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mwfyf"]
+render_priority = 0
+shader = ExtResource("2_e1kmm")
+shader_parameter/strength = 0.0
+shader_parameter/height = 1.0
+shader_parameter/aspectRatio = 1.0
+shader_parameter/cylindricalRatio = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_uaoyx"]
+material = SubResource("ShaderMaterial_mwfyf")
+flip_faces = true
+size = Vector2(2, 2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_adba5"]
 shader = ExtResource("2_uqvly")
@@ -117,6 +131,11 @@ unique_name_in_owner = true
 shape = SubResource("SphereShape3D_glv2y")
 target_position = Vector3(0, 0.5, 0)
 debug_shape_custom_color = Color(0, 1, 0, 1)
+
+[node name="PostProcess3D" type="MeshInstance3D" parent="Head/Camera"]
+visible = false
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_uaoyx")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

@@ -291,6 +291,7 @@ shader_parameter/in_dashed_count_x = 6.0
 shader_parameter/in_dashed_count_y = 6.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_eapmc"]
+lightmap_size_hint = Vector2i(34, 81)
 material = SubResource("ShaderMaterial_6114g")
 size = Vector3(1, 5, 5)
 
