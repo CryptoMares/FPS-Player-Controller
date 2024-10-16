@@ -25,6 +25,7 @@ var _is_crouching : bool = false
 
 
 func _ready():
+
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	CROUCH_SHAPECAST.add_exception($".")
 

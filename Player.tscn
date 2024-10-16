@@ -14,10 +14,10 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mwfyf"]
 render_priority = 0
 shader = ExtResource("2_e1kmm")
-shader_parameter/strength = 0.0
-shader_parameter/height = 1.0
-shader_parameter/aspectRatio = 1.0
-shader_parameter/cylindricalRatio = 1.0
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/edge_threshold = 0.01
+shader_parameter/noise_frequency = 10.0
+shader_parameter/noise_offset_intensity = 0.002
 
 [sub_resource type="QuadMesh" id="QuadMesh_uaoyx"]
 material = SubResource("ShaderMaterial_mwfyf")
@@ -126,6 +126,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
+fov = 90.0
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="Head/Camera"]
 shape = SubResource("SphereShape3D_glv2y")
