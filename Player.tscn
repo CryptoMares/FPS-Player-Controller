@@ -115,22 +115,17 @@ _data = {
 [node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("ANIMATIONPLAYER", "CROUCH_SHAPECAST")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1")
-MAX_VELOCITY_AIR = null
-MAX_VELOCITY_GROUND = null
-GRAVITY = null
-STOP_SPEED = null
-PLAYER_WALKING_MULTIPLIER = null
-MOUSE_SENSITIVITY = null
-CROUCH_SPEED = null
-TOGGLE_CROUCH = null
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 CROUCH_SHAPECAST = NodePath("Head/Camera/ShapeCast3D")
 
 [node name="StairsHandling" type="Node3D" parent="."]
 
-[node name="StairsAheadRayCast3D" type="RayCast3D" parent="StairsHandling"]
+[node name="StairsAheadPivot" type="Node3D" parent="StairsHandling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+
+[node name="StairsAheadRayCast3D" type="RayCast3D" parent="StairsHandling/StairsAheadPivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, -0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 target_position = Vector3(0, -0.55, 0)
 debug_shape_custom_color = Color(0.835294, 0, 0.960784, 1)
 debug_shape_thickness = 3
@@ -150,7 +145,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
-fov = 90.0
+fov = 95.0
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="Head/Camera"]
 shape = SubResource("SphereShape3D_glv2y")

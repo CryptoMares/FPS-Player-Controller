@@ -687,14 +687,6 @@ material = SubResource("ShaderMaterial_n6kji")
 
 [node name="KinematicBody" parent="." instance=ExtResource("1")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.5, -6.133)
-MAX_VELOCITY_AIR = 0.6
-MAX_VELOCITY_GROUND = 6.0
-GRAVITY = 26.0
-STOP_SPEED = 1.5
-PLAYER_WALKING_MULTIPLIER = 0.666
-MOUSE_SENSITIVITY = 0.075
-CROUCH_SPEED = 5.0
-TOGGLE_CROUCH = true
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.50841, -0.161726, -0.845792, 0, -0.982205, 0.18781, -0.861115, 0.0954845, 0.499363, 0, 3, 0)
