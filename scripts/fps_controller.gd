@@ -162,7 +162,7 @@ func process_movement(delta):
 		move_and_slide()
 		_snap_down_to_stairs_check()
 	#move_and_slide()
-	#_snap_down_to_stairs_check()
+	#_snap_down_to_stairs_check() #
 
 func accelerate(wish_dir: Vector3, max_velocity: float, delta):
 	# Get our current speed as a projection of velocity onto the wish_dir
