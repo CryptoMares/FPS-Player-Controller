@@ -83,12 +83,19 @@ func _snap_down_to_stairs_check() -> void:
 
 func _snap_up_stairs_check(delta) -> bool:
 	if not is_on_floor() and not _snapped_to_stairs_last_frame: return false
-	var expected_move_motion = self.velocity + Vector3(1,0,1) * delta
+	var expected_move_motion = self.velocity * Vector3(1,0,1) * delta
 	var step_pos_with_clearance = self.global_transform.translated(expected_move_motion + Vector3(0, MAX_STEP_HEIGHT * 2, 0))
+	# Run a body_test_motion slightly above the pos we expect to move to, towards the floor.
+	# We give some clearance above to ensure there's ample room for the player.
+	# If it hits a step <= MAX_STEP_HEIGHT, we can teleport the player on top of the step
+	# along with their intended motion forward.
 	var down_check_result = PhysicsTestMotionResult3D.new()
-	if (_run_body_test_motion(step_pos_with_clearance, Vector3(0,-MAX_STEP_HEIGHT*2,0), down_check_result) 
+	if (_run_body_test_motion(step_pos_with_clearance, Vector3(0,-MAX_STEP_HEIGHT*2,0), down_check_result)
 	and (down_check_result.get_collider().is_class("StaticBody3D") or down_check_result.get_collider().is_class("CSGShape3D"))):
 		var step_height = ((step_pos_with_clearance.origin + down_check_result.get_travel()) - self.global_position).y
+		# Note I put the step_height <= 0.01 in just because I noticed it prevented some physics glitchiness
+		# 0.02 was found with trial and error. Too much and sometimes get a bit of jitter if running into a ceiling.
+		# The normal character controller (both jolt & default) seems to be able to handled steps up of 0.1 anyway
 		if step_height > MAX_STEP_HEIGHT or step_height <= 0.01 or (down_check_result.get_collision_point() - self.global_position).y > MAX_STEP_HEIGHT: return false
 		%StairsAheadRayCast3D.global_position = down_check_result.get_collision_point() + Vector3(0,MAX_STEP_HEIGHT,0) + expected_move_motion.normalized() * 0.1
 		%StairsAheadRayCast3D.force_raycast_update()
@@ -105,7 +112,7 @@ func _physics_process(delta):
 	process_input()
 	process_movement(delta)
 	
-	if is_on_floor(): _last_frame_was_on_floor = Engine.get_physics_frames()
+	if is_on_floor() or _snapped_to_stairs_last_frame: _last_frame_was_on_floor = Engine.get_physics_frames()
 
 	GlobalScript.debug.add_property("FPS",GlobalScript.debug.frames_per_second, 1)
 	GlobalScript.debug.add_property("Speed",str(velocity.length()).pad_decimals(3), 2)
@@ -115,7 +122,7 @@ func process_input():
 	direction = Vector3()
 	
 	# Movement directions
-	if is_on_floor():
+	if is_on_floor() or _snapped_to_stairs_last_frame:
 		if Input.is_action_pressed("forward"):
 			direction -= transform.basis.z
 		elif Input.is_action_pressed("backward"):
@@ -135,7 +142,7 @@ func process_movement(delta):
 	# Get the normalized input direction so that we don't move faster on diagonals
 	var wish_dir = direction.normalized()
 
-	if is_on_floor():
+	if is_on_floor() or _snapped_to_stairs_last_frame:
 		# If wish_jump is true then we won't apply any friction and allow the 
 		# player to jump instantly, this gives us a single frame where we can 
 		if wish_jump and _is_crouching == false: # "_is_crouching == false" disables jump while crouched
@@ -154,6 +161,8 @@ func process_movement(delta):
 	if not _snap_up_stairs_check(delta):
 		move_and_slide()
 		_snap_down_to_stairs_check()
+	#move_and_slide()
+	#_snap_down_to_stairs_check()
 
 func accelerate(wish_dir: Vector3, max_velocity: float, delta):
 	# Get our current speed as a projection of velocity onto the wish_dir

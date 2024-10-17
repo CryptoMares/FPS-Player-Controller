@@ -818,7 +818,7 @@ anchor = 0
 anchor_fixed = true
 material = SubResource("ShaderMaterial_hyl4e")
 calculation = 0
-steps = 32
+steps = 48
 fill = true
 
 [node name="ProtoRamp2" type="CSGCombiner3D" parent="."]
