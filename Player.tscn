@@ -125,7 +125,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
 
 [node name="StairsAheadRayCast3D" type="RayCast3D" parent="StairsHandling/StairsAheadPivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.65)
 target_position = Vector3(0, -0.55, 0)
 debug_shape_custom_color = Color(0.835294, 0, 0.960784, 1)
 debug_shape_thickness = 3
@@ -164,6 +164,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="PostProcess2D" type="Control" parent="Control"]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

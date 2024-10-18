@@ -13,7 +13,7 @@ config_version=5
 config/name="Q/HL-like Controller"
 run/main_scene="res://Level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.png"
+config/icon="res://icon_hl_q.png"
 
 [autoload]
 
@@ -87,7 +87,6 @@ crouch={
 
 3d/run_on_separate_thread=true
 common/physics_ticks_per_second=144
-3d/physics_engine="GodotPhysics3D"
 
 [rendering]
 

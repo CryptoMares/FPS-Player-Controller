@@ -157,12 +157,13 @@ func process_movement(delta):
 		velocity.y -= GRAVITY * delta
 		velocity = update_velocity_air(wish_dir, delta)
 
+	
 	# Move the player once velocity has been calculated
 	if not _snap_up_stairs_check(delta):
 		move_and_slide()
 		_snap_down_to_stairs_check()
 	#move_and_slide()
-	#_snap_down_to_stairs_check() #
+	#_snap_down_to_stairs_check()
 
 func accelerate(wish_dir: Vector3, max_velocity: float, delta):
 	# Get our current speed as a projection of velocity onto the wish_dir
