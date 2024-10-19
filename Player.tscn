@@ -164,7 +164,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="PostProcess2D" type="Control" parent="Control"]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

@@ -58,6 +58,7 @@ func _handle_camera_rotation(event: InputEvent):
 	$Head.rotation.x = lerp($Head.rotation.x, new_head_rot_x, 0.35)
 
 # Stair functions START
+
 func is_surface_too_steep(normal : Vector3) -> bool:
 	return normal.angle_to(Vector3.UP) > self.floor_max_angle
 
@@ -83,6 +84,8 @@ func _snap_down_to_stairs_check() -> void:
 
 func _snap_up_stairs_check(delta) -> bool:
 	if not is_on_floor() and not _snapped_to_stairs_last_frame: return false
+	# Don't snap stairs if trying to jump, also no need to check for stairs ahead if not moving
+	if self.velocity.y > 0 or (self.velocity * Vector3(1,0,1)).length() == 0: return false
 	var expected_move_motion = self.velocity * Vector3(1,0,1) * delta
 	var step_pos_with_clearance = self.global_transform.translated(expected_move_motion + Vector3(0, MAX_STEP_HEIGHT * 2, 0))
 	# Run a body_test_motion slightly above the pos we expect to move to, towards the floor.
@@ -96,7 +99,8 @@ func _snap_up_stairs_check(delta) -> bool:
 		# Note I put the step_height <= 0.01 in just because I noticed it prevented some physics glitchiness
 		# 0.02 was found with trial and error. Too much and sometimes get a bit of jitter if running into a ceiling.
 		# The normal character controller (both jolt & default) seems to be able to handled steps up of 0.1 anyway
-		if step_height > MAX_STEP_HEIGHT or step_height <= 0.01 or (down_check_result.get_collision_point() - self.global_position).y > MAX_STEP_HEIGHT: return false
+		# 0.005
+		if step_height > MAX_STEP_HEIGHT or step_height <= 0.001 or (down_check_result.get_collision_point() - self.global_position).y > MAX_STEP_HEIGHT: return false
 		%StairsAheadRayCast3D.global_position = down_check_result.get_collision_point() + Vector3(0,MAX_STEP_HEIGHT,0) + expected_move_motion.normalized() * 0.1
 		%StairsAheadRayCast3D.force_raycast_update()
 		if %StairsAheadRayCast3D.is_colliding() and not is_surface_too_steep(%StairsAheadRayCast3D.get_collision_normal()):
@@ -112,7 +116,7 @@ func _physics_process(delta):
 	process_input()
 	process_movement(delta)
 	
-	if is_on_floor() or _snapped_to_stairs_last_frame: _last_frame_was_on_floor = Engine.get_physics_frames()
+	if is_on_floor(): _last_frame_was_on_floor = Engine.get_physics_frames()
 
 	GlobalScript.debug.add_property("FPS",GlobalScript.debug.frames_per_second, 1)
 	GlobalScript.debug.add_property("Speed",str(velocity.length()).pad_decimals(3), 2)
