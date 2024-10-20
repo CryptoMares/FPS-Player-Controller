@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var MAX_VELOCITY_AIR = 0.6 # Air control
 @export var MAX_VELOCITY_GROUND = 6.0
 var MAX_ACCELERATION = 10 * MAX_VELOCITY_GROUND
-@export var GRAVITY = 26.0 #15.34
+@export var GRAVITY = 28.0 #15.34
 @export var STOP_SPEED = 1.5 #1.5
 var JUMP_IMPULSE = sqrt(2 * GRAVITY * 2.0) #sqrt(2 * GRAVITY * 0.85)
 @export var PLAYER_WALKING_MULTIPLIER = 0.666
@@ -23,7 +23,7 @@ var walking = false
 
 var _is_crouching : bool = false
 
-const MAX_STEP_HEIGHT = 0.5
+const MAX_STEP_HEIGHT = 0.15
 var _snapped_to_stairs_last_frame := false
 var _last_frame_was_on_floor := -INF
 
@@ -99,8 +99,8 @@ func _snap_up_stairs_check(delta) -> bool:
 		# Note I put the step_height <= 0.01 in just because I noticed it prevented some physics glitchiness
 		# 0.02 was found with trial and error. Too much and sometimes get a bit of jitter if running into a ceiling.
 		# The normal character controller (both jolt & default) seems to be able to handled steps up of 0.1 anyway
-		# 0.005
-		if step_height > MAX_STEP_HEIGHT or step_height <= 0.001 or (down_check_result.get_collision_point() - self.global_position).y > MAX_STEP_HEIGHT: return false
+		# 0.005 - less stuck, but 0.001 works best so far!
+		if step_height > MAX_STEP_HEIGHT or step_height <= 0.0008 or (down_check_result.get_collision_point() - self.global_position).y > MAX_STEP_HEIGHT: return false
 		%StairsAheadRayCast3D.global_position = down_check_result.get_collision_point() + Vector3(0,MAX_STEP_HEIGHT,0) + expected_move_motion.normalized() * 0.1
 		%StairsAheadRayCast3D.force_raycast_update()
 		if %StairsAheadRayCast3D.is_colliding() and not is_surface_too_steep(%StairsAheadRayCast3D.get_collision_normal()):
