@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dx5184jxv6hi3"]
+[gd_scene load_steps=16 format=3 uid="uid://dx5184jxv6hi3"]
 
 [ext_resource type="Script" path="res://scripts/fps_controller.gd" id="1"]
 [ext_resource type="Shader" path="res://shaders/PostProcess3D/sptl_shdr_3d.gdshader" id="2_e1kmm"]
@@ -6,6 +6,12 @@
 [ext_resource type="Shader" path="res://shaders/PostProcess2D/fisheyegdshader.gdshader" id="2_uqvly"]
 [ext_resource type="Script" path="res://scripts/debug.gd" id="3_2aih1"]
 [ext_resource type="Script" path="res://scripts/PP2D_color_rect_res_depend.gd" id="3_gfe20"]
+
+[sub_resource type="Curve" id="Curve_tdo43"]
+min_value = 50.0
+max_value = 95.0
+_data = [Vector2(0, 50), 0.0, 0.0, 0, 0, Vector2(1, 95), 87.5405, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jkwgu"]
 
@@ -117,6 +123,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 CROUCH_SHAPECAST = NodePath("Head/Camera/ShapeCast3D")
+custom_curve = SubResource("Curve_tdo43")
 
 [node name="StairsHandling" type="Node3D" parent="."]
 

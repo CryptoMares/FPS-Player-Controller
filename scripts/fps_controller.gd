@@ -27,18 +27,33 @@ const MAX_STEP_HEIGHT = 0.15
 var _snapped_to_stairs_last_frame := false
 var _last_frame_was_on_floor := -INF
 
+# FPV Camera
+@onready var camera = %Camera
+var is_zoomed: bool = false
+var normal_fov: float = 95.0
+var zoomed_fov: float = 60.0
+var zoom_duration: float = 0.4
+
+# Test if this curve works with TWEENS
+# @export var custom_curve: Curve
 
 func _ready():
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	CROUCH_SHAPECAST.add_exception($".")
 
-
+# Zoom key
 func _input(event):
+	# Zoom key
+	if event.is_action_pressed("zoom"):
+		# print("ZOOM")
+		toggle_zoom()
 	
+	# Crouch key
 	if event.is_action_pressed("crouch"):
 		toggle_crouch()
 	
+	# Exit key
 	if event.is_action_pressed("exit"):
 		get_tree().quit()
 	
@@ -48,14 +63,16 @@ func _input(event):
 	
 func _handle_camera_rotation(event: InputEvent):
 	# Rotate the camera based on the mouse movement
-	rotate_y(deg_to_rad(-event.relative.x * MOUSE_SENSITIVITY))
-	$Head.rotate_x(deg_to_rad(-event.relative.y * MOUSE_SENSITIVITY))
-	
+	var mouse_x = -event.relative.x * MOUSE_SENSITIVITY
+	var mouse_y = -event.relative.y * MOUSE_SENSITIVITY
+	rotate_y(deg_to_rad(mouse_x))
+	$Head.rotate_x(deg_to_rad(mouse_y))
 	
 	# Stop the head from rotating too far up or down + soft clamp
 	var head_rot_x = $Head.rotation.x
 	var new_head_rot_x = clamp(head_rot_x, deg_to_rad(-90) - (head_rot_x - deg_to_rad(60)) * 0.1, deg_to_rad(60) + (head_rot_x - deg_to_rad(-80)) * 0.1)
 	$Head.rotation.x = lerp($Head.rotation.x, new_head_rot_x, 0.35)
+
 
 # Stair functions START
 
@@ -218,3 +235,8 @@ func _on_animation_player_animation_started(anim_name):
 	#if CROUCH_SHAPECAST.is_colliding() == true:
 		#await get_tree().create_timer(0.1).timeout
 		#uncrouch_check()
+
+func toggle_zoom():
+	is_zoomed = not is_zoomed
+	var target_fov = zoomed_fov if is_zoomed else normal_fov
+	create_tween().tween_property(camera, "fov", target_fov, zoom_duration).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)
