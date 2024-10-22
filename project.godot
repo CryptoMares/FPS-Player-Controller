@@ -15,6 +15,10 @@ run/main_scene="res://Level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon_hl_q.png"
 
+[audio]
+
+buses/default_bus_layout=""
+
 [autoload]
 
 GlobalScript="*res://scripts/global_script.gd"
@@ -33,7 +37,9 @@ project/assembly_name="FPS Player Controller"
 folder_colors={
 "res://addons/": "yellow",
 "res://curves/": "orange",
-"res://scripts/": "teal"
+"res://scenes/": "red",
+"res://scripts/": "purple",
+"res://ui/": "teal"
 }
 
 [input]
