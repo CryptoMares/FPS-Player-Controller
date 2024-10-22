@@ -30,9 +30,9 @@ var _last_frame_was_on_floor := -INF
 # FPV Camera
 @onready var camera = %Camera
 var is_zoomed: bool = false
-var normal_fov: float = 95.0
-var zoomed_fov: float = 60.0
-var zoom_duration: float = 0.4
+@export var normal_fov: float = 95.0
+@export var zoomed_fov: float = 65.0
+@export var zoom_duration: float = 0.4
 
 # Test if this curve works with TWEENS
 # @export var custom_curve: Curve
@@ -237,6 +237,7 @@ func _on_animation_player_animation_started(anim_name):
 		#uncrouch_check()
 
 func toggle_zoom():
+	await get_tree().create_timer(0.15).timeout  # delay
 	is_zoomed = not is_zoomed
 	var target_fov = zoomed_fov if is_zoomed else normal_fov
 	create_tween().tween_property(camera, "fov", target_fov, zoom_duration).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)

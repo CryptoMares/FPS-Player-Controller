@@ -293,10 +293,10 @@ shader_parameter/in_dashed_count_y = 6.0
 [sub_resource type="BoxMesh" id="BoxMesh_eapmc"]
 lightmap_size_hint = Vector2i(34, 81)
 material = SubResource("ShaderMaterial_6114g")
-size = Vector3(5, 5, 5)
+size = Vector3(7, 5, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s3aj0"]
-size = Vector3(5, 5, 5)
+size = Vector3(7, 5, 5)
 
 [sub_resource type="Animation" id="Animation_gdy5j"]
 resource_name = "Push"

@@ -21,6 +21,7 @@ GlobalScript="*res://scripts/global_script.gd"
 
 [display]
 
+window/size/mode=4
 window/per_pixel_transparency/allowed=true
 
 [dotnet]
