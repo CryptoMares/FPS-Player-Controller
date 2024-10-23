@@ -10,7 +10,7 @@ var JUMP_IMPULSE = sqrt(2 * GRAVITY * 2.0) #sqrt(2 * GRAVITY * 0.85)
 @export var PLAYER_WALKING_MULTIPLIER = 0.666
 @export var MOUSE_SENSITIVITY : float = 0.075
 
-@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 2.3 # 5.0
+@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 2.25 # 5.0
 @export var TOGGLE_CROUCH : bool = true
 
 @export var ANIMATIONPLAYER : AnimationPlayer
