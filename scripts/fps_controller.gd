@@ -10,7 +10,7 @@ var JUMP_IMPULSE = sqrt(2 * GRAVITY * 2.0) #sqrt(2 * GRAVITY * 0.85)
 @export var PLAYER_WALKING_MULTIPLIER = 0.666
 @export var MOUSE_SENSITIVITY : float = 0.075
 
-@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 5.0
+@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 2.3 # 5.0
 @export var TOGGLE_CROUCH : bool = true
 
 @export var ANIMATIONPLAYER : AnimationPlayer
@@ -31,7 +31,7 @@ var _last_frame_was_on_floor := -INF
 @onready var camera = %Camera
 var is_zoomed: bool = false
 @export var normal_fov: float = 95.0
-@export var zoomed_fov: float = 65.0
+@export var zoomed_fov: float = 60.0
 @export var zoom_duration: float = 0.4
 
 # Test if this curve works with TWEENS
@@ -215,9 +215,9 @@ func update_velocity_air(wish_dir: Vector3, delta):
 func crouching(state : bool):
 	match state:
 		true:
-			ANIMATIONPLAYER.play("Crouch", -1, CROUCH_SPEED)
+			ANIMATIONPLAYER.play("Crouch", 0, CROUCH_SPEED)
 		false:
-			ANIMATIONPLAYER.play("Crouch", -1, -CROUCH_SPEED, true)
+			ANIMATIONPLAYER.play("Crouch", 0, -CROUCH_SPEED, true)
 
 func toggle_crouch():
 	if _is_crouching == true and CROUCH_SHAPECAST.is_colliding() == false:
