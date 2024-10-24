@@ -34,6 +34,20 @@ var is_zoomed: bool = false
 @export var zoomed_fov: float = 60.0
 @export var zoom_duration: float = 0.4
 
+# In the air
+var is_in_air = false
+var max_air_distance = 0.0
+var initial_y_position = 0.0
+var last_frame_was_on_floor = 0
+
+# Pushing detection / momentum WIP START
+@export_range(0.0, 1.0, 0.001) var force_multiplier = 0.035
+
+var current_platform: Node3D = null
+var previous_platform_transform: Transform3D
+var is_being_pushed: bool = false
+# Pushing detection / momentum WIP END
+
 # Test if this curve works with TWEENS
 # @export var custom_curve: Curve
 
@@ -129,15 +143,53 @@ func _snap_up_stairs_check(delta) -> bool:
 
 # Stair functions END
 
-var is_in_air = false
-var max_air_distance = 0.0
-var initial_y_position = 0.0
-var last_frame_was_on_floor = 0
-
 func _physics_process(delta):
 	process_input()
 	process_movement(delta)
-   
+	
+	# Pushing detection / momentum WIP START
+	if is_on_floor():
+		var collision = get_last_slide_collision()
+		if collision:
+			var collider = collision.get_collider()
+			
+			# Platform detection
+			if collider != current_platform:
+				current_platform = collider
+				previous_platform_transform = current_platform.global_transform
+				is_being_pushed = false
+			
+			if current_platform:
+				# Get platform's transform change
+				var current_transform = current_platform.global_transform
+				
+				# Calculate platform's effective velocity at the character's position
+				var platform_velocity = _calculate_velocity_at_point(
+					previous_platform_transform,
+					current_transform,
+					global_position,
+					delta
+				)
+				
+				# Apply platform velocity to character
+				velocity += platform_velocity * force_multiplier
+				
+				# Update for next frame
+				previous_platform_transform = current_transform
+				
+				# Report significant movement
+				if platform_velocity.length() > 0.1:
+					if not is_being_pushed:
+						print("Started being pushed by platform")
+						is_being_pushed = true
+				elif is_being_pushed:
+					print("No longer being pushed")
+					is_being_pushed = false
+	else:
+		current_platform = null
+		is_being_pushed = false
+	# Pushing detection / momentum WIP END   
+
 	# Check if we just left the ground
 	if not is_on_floor() and !is_in_air:
 		is_in_air = true
@@ -264,3 +316,15 @@ func toggle_zoom():
 	is_zoomed = not is_zoomed
 	var target_fov = zoomed_fov if is_zoomed else normal_fov
 	create_tween().tween_property(camera, "fov", target_fov, zoom_duration).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)
+
+# Pushing detection / momentum WIP START
+func _calculate_velocity_at_point(old_transform: Transform3D, new_transform: Transform3D, point: Vector3, delta: float) -> Vector3:
+	# Get the point's position relative to the platform's origin
+	var local_point = old_transform.inverse() * point
+	
+	# Get the point's new position after transform change
+	var new_point = new_transform * local_point
+	
+	# The velocity is the difference in positions
+	return (new_point - point) / delta
+# Pushing detection / momentum WIP END

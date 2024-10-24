@@ -1,9 +1,10 @@
-[gd_scene load_steps=45 format=3 uid="uid://dldwg76tuylet"]
+[gd_scene load_steps=51 format=3 uid="uid://dldwg76tuylet"]
 
 [ext_resource type="PackedScene" uid="uid://dx5184jxv6hi3" path="res://Player.tscn" id="1"]
 [ext_resource type="Shader" path="res://shaders/grid.gdshader" id="1_205pr"]
 [ext_resource type="Script" path="res://scripts/temp_scripts/anim_push.gd" id="3_glw18"]
 [ext_resource type="Script" path="res://scripts/temp_scripts/anim_push_up.gd" id="4_dg8li"]
+[ext_resource type="Script" path="res://scripts/temp_scripts/anim_slow_lift.gd" id="4_qoegk"]
 [ext_resource type="Script" path="res://scripts/temp_scripts/anim_push_up_forward.gd" id="5_vesk7"]
 [ext_resource type="Script" path="res://scripts/temp_scripts/anim_rot.gd" id="6_h8xkg"]
 [ext_resource type="PackedScene" uid="uid://83ran5bvxee8" path="res://addons/CSGStairMaker3D.tscn" id="8_whd5d"]
@@ -260,10 +261,87 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0)
 }
 
+[sub_resource type="Animation" id="Animation_laiwe"]
+resource_name = "Slow_lift"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(2, -0.25, 0, 0.25, 0, 9, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 4)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m1rbi"]
 _data = {
 "Push_up": SubResource("Animation_lr3ud"),
-"RESET": SubResource("Animation_km5m1")
+"RESET": SubResource("Animation_km5m1"),
+"Slow_lift": SubResource("Animation_laiwe")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_is8hx"]
+render_priority = 0
+shader = ExtResource("1_205pr")
+shader_parameter/subdivisions = 8.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="Animation" id="Animation_w2l7u"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_lspra"]
+resource_name = "Slow_lift"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(2, -0.25, 0, 0.25, 0, 9, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 4)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5emqn"]
+_data = {
+"RESET": SubResource("Animation_w2l7u"),
+"Slow_lift": SubResource("Animation_lspra")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6114g"]
@@ -730,6 +808,18 @@ script = ExtResource("4_dg8li")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CSGBox3D5"]
 libraries = {
 "": SubResource("AnimationLibrary_m1rbi")
+}
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, 23)
+use_collision = true
+size = Vector3(4, 0.5, 4)
+material = SubResource("ShaderMaterial_is8hx")
+script = ExtResource("4_qoegk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CSGBox3D8"]
+libraries = {
+"": SubResource("AnimationLibrary_5emqn")
 }
 
 [node name="Platform_1" type="Node3D" parent="."]
