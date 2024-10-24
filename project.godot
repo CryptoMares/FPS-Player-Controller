@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Q/HL-like Controller"
+config/name="Project Rapscallion"
 run/main_scene="res://Level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon_hl_q.png"
@@ -93,7 +93,6 @@ zoom={
 
 3d/run_on_separate_thread=true
 common/physics_ticks_per_second=144
-common/physics_interpolation=true
 
 [rendering]
 

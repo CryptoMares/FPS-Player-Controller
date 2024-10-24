@@ -32,7 +32,7 @@ var _last_frame_was_on_floor := -INF
 var is_zoomed: bool = false
 @export var normal_fov: float = 95.0
 @export var zoomed_fov: float = 60.0
-@export var zoom_duration: float = 0.4
+@export var zoom_duration: float = 0.45
 
 # In the air
 var is_in_air = false
@@ -41,7 +41,8 @@ var initial_y_position = 0.0
 var last_frame_was_on_floor = 0
 
 # Pushing detection / momentum WIP START
-@export_range(0.0, 1.0, 0.001) var force_multiplier = 0.045
+@export_range(0.0, 1.0, 0.001) var linear_force_multiplier = 0.045
+@export_range(0.0, 1.0, 0.001) var rotation_force_multiplier = 0.015
 
 var current_platform: Node3D = null
 var previous_platform_transform: Transform3D
@@ -153,32 +154,38 @@ func _physics_process(delta):
 		if collision:
 			var collider = collision.get_collider()
 			
-			# Platform detection
 			if collider != current_platform:
 				current_platform = collider
 				previous_platform_transform = current_platform.global_transform
 				is_being_pushed = false
 			
 			if current_platform:
-				# Get platform's transform change
 				var current_transform = current_platform.global_transform
 				
-				# Calculate platform's effective velocity at the character's position
-				var platform_velocity = _calculate_velocity_at_point(
+				# Split velocity calculation into linear and rotational components
+				var linear_velocity = _calculate_linear_velocity(
+					previous_platform_transform.origin,
+					current_transform.origin,
+					delta
+				)
+				
+				var rotational_velocity = _calculate_rotational_velocity(
 					previous_platform_transform,
 					current_transform,
 					global_position,
 					delta
 				)
 				
-				# Apply platform velocity to character
-				velocity += platform_velocity * force_multiplier
+				# Apply velocities with separate multipliers
+				velocity += linear_velocity * linear_force_multiplier
+				velocity += rotational_velocity * rotation_force_multiplier
 				
-				# Update for next frame
+				# Update transform for next frame
 				previous_platform_transform = current_transform
 				
-				# Report significant movement
-				if platform_velocity.length() > 0.1:
+				# Report significant movement (using combined velocity for threshold check)
+				var total_velocity = linear_velocity + rotational_velocity
+				if total_velocity.length() > 0.1:
 					if not is_being_pushed:
 						print("Started being pushed by platform")
 						is_being_pushed = true
@@ -318,13 +325,17 @@ func toggle_zoom():
 	create_tween().tween_property(camera, "fov", target_fov, zoom_duration).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)
 
 # Pushing detection / momentum WIP START
-func _calculate_velocity_at_point(old_transform: Transform3D, new_transform: Transform3D, point: Vector3, delta: float) -> Vector3:
-	# Get the point's position relative to the platform's origin
+func _calculate_linear_velocity(old_position: Vector3, new_position: Vector3, delta: float) -> Vector3:
+	return (new_position - old_position) / delta
+
+func _calculate_rotational_velocity(old_transform: Transform3D, new_transform: Transform3D, point: Vector3, delta: float) -> Vector3:
+	# Get point's position relative to rotation center
 	var local_point = old_transform.inverse() * point
 	
-	# Get the point's new position after transform change
-	var new_point = new_transform * local_point
+	# Calculate position after pure rotation (excluding translation)
+	var rotation_only_transform = Transform3D(new_transform.basis, old_transform.origin)
+	var rotated_point = rotation_only_transform * local_point
 	
-	# The velocity is the difference in positions
-	return (new_point - point) / delta
+	# Return rotational velocity
+	return (rotated_point - point) / delta
 # Pushing detection / momentum WIP END
