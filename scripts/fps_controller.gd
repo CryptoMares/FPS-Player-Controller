@@ -41,7 +41,7 @@ var initial_y_position = 0.0
 var last_frame_was_on_floor = 0
 
 # Pushing detection / momentum WIP START
-@export_range(0.0, 1.0, 0.001) var force_multiplier = 0.035
+@export_range(0.0, 1.0, 0.001) var force_multiplier = 0.045
 
 var current_platform: Node3D = null
 var previous_platform_transform: Transform3D

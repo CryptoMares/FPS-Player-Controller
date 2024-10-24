@@ -378,7 +378,7 @@ size = Vector3(7, 5, 5)
 
 [sub_resource type="Animation" id="Animation_gdy5j"]
 resource_name = "Push"
-length = 2.0
+length = 4.0
 loop_mode = 1
 tracks/0/type = "bezier"
 tracks/0/imported = false
@@ -460,7 +460,6 @@ _data = {
 animation = &"Push"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_cish4"]
-graph_offset = Vector2(-154, 60)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_xtbqq")
 nodes/Animation/position = Vector2(80, 140)
 
