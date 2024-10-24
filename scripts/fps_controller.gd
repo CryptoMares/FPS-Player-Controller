@@ -10,7 +10,7 @@ var JUMP_IMPULSE = sqrt(2 * GRAVITY * 2.0) #sqrt(2 * GRAVITY * 0.85)
 @export var PLAYER_WALKING_MULTIPLIER = 0.666
 @export var MOUSE_SENSITIVITY : float = 0.075
 
-@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 2.25 # 5.0
+@export_range(5, 10, 0.1) var CROUCH_SPEED : float = 2.2 # 5.0
 @export var TOGGLE_CROUCH : bool = true
 
 @export var ANIMATIONPLAYER : AnimationPlayer
@@ -129,11 +129,34 @@ func _snap_up_stairs_check(delta) -> bool:
 
 # Stair functions END
 
+var is_in_air = false
+var max_air_distance = 0.0
+var initial_y_position = 0.0
+var last_frame_was_on_floor = 0
+
 func _physics_process(delta):
 	process_input()
 	process_movement(delta)
-	
-	if is_on_floor(): _last_frame_was_on_floor = Engine.get_physics_frames()
+   
+	# Check if we just left the ground
+	if not is_on_floor() and !is_in_air:
+		is_in_air = true
+		initial_y_position = global_position.y
+		max_air_distance = 0.0
+		print("Left ground!")
+   
+	# While in air, track maximum distance
+	if is_in_air:
+		var current_distance = abs(initial_y_position - global_position.y)
+		max_air_distance = max(max_air_distance, current_distance)
+   
+   # Check if we just landed
+	if is_on_floor() and is_in_air:
+		is_in_air = false
+		print("Landed! Maximum air distance was: ", max_air_distance)
+   
+	if is_on_floor():
+		last_frame_was_on_floor = Engine.get_physics_frames()
 
 	GlobalScript.debug.add_property("FPS",GlobalScript.debug.frames_per_second, 1)
 	GlobalScript.debug.add_property("Speed",str(velocity.length()).pad_decimals(3), 2)
