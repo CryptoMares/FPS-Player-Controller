@@ -41,7 +41,7 @@ var initial_y_position = 0.0
 var last_frame_was_on_floor = 0
 
 # Pushing detection / momentum WIP START
-@export_range(0.0, 1.0, 0.001) var linear_force_multiplier = 0.045
+@export_range(0.0, 1.0, 0.001) var linear_force_multiplier = 0.035
 @export_range(0.0, 1.0, 0.001) var rotation_force_multiplier = 0.015
 
 var current_platform: Node3D = null
@@ -149,49 +149,48 @@ func _physics_process(delta):
 	process_movement(delta)
 	
 	# Pushing detection / momentum WIP START
-	if is_on_floor():
-		var collision = get_last_slide_collision()
-		if collision:
-			var collider = collision.get_collider()
+	var collision = get_last_slide_collision()
+	if collision:
+		var collider = collision.get_collider()
+		
+		if collider != current_platform:
+			current_platform = collider
+			previous_platform_transform = current_platform.global_transform
+			is_being_pushed = false
+		
+		if current_platform:
+			var current_transform = current_platform.global_transform
 			
-			if collider != current_platform:
-				current_platform = collider
-				previous_platform_transform = current_platform.global_transform
+			# Split velocity calculation into linear and rotational components
+			var linear_velocity = _calculate_linear_velocity(
+				previous_platform_transform.origin,
+				current_transform.origin,
+				delta
+			)
+			
+			var rotational_velocity = _calculate_rotational_velocity(
+				previous_platform_transform,
+				current_transform,
+				global_position,
+				delta
+			)
+			
+			# Apply velocities with separate multipliers
+			velocity += linear_velocity * linear_force_multiplier
+			velocity += rotational_velocity * rotation_force_multiplier
+			
+			# Update transform for next frame
+			previous_platform_transform = current_transform
+			
+			# Report significant movement (using combined velocity for threshold check)
+			var total_velocity = linear_velocity + rotational_velocity
+			if total_velocity.length() > 0.1:
+				if not is_being_pushed:
+					print("Started being pushed by platform")
+					is_being_pushed = true
+			elif is_being_pushed:
+				print("No longer being pushed")
 				is_being_pushed = false
-			
-			if current_platform:
-				var current_transform = current_platform.global_transform
-				
-				# Split velocity calculation into linear and rotational components
-				var linear_velocity = _calculate_linear_velocity(
-					previous_platform_transform.origin,
-					current_transform.origin,
-					delta
-				)
-				
-				var rotational_velocity = _calculate_rotational_velocity(
-					previous_platform_transform,
-					current_transform,
-					global_position,
-					delta
-				)
-				
-				# Apply velocities with separate multipliers
-				velocity += linear_velocity * linear_force_multiplier
-				velocity += rotational_velocity * rotation_force_multiplier
-				
-				# Update transform for next frame
-				previous_platform_transform = current_transform
-				
-				# Report significant movement (using combined velocity for threshold check)
-				var total_velocity = linear_velocity + rotational_velocity
-				if total_velocity.length() > 0.1:
-					if not is_being_pushed:
-						print("Started being pushed by platform")
-						is_being_pushed = true
-				elif is_being_pushed:
-					print("No longer being pushed")
-					is_being_pushed = false
 	else:
 		current_platform = null
 		is_being_pushed = false
